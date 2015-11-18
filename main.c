@@ -9,11 +9,13 @@
 void *process(void *arg)
 {
     int client_socket = (int)arg;
+    FILE *client = fdopen(client_socket, "r");
     char buffer[100];
+
 
     pthread_detach(pthread_self());
 
-    if (recv(client_socket, buffer, 100, 0) != -1)
+    if (fgets(buffer, 100, client) != NULL)
     {
         printf("client: %s", buffer);
         send(client_socket, "hello\n", 6, 0);
