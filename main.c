@@ -65,10 +65,10 @@ void *process(void *arg)
         if (file != -1)
         {
             send(client_socket, "HTTP/1.0 200 OK\n", 16, 0);
+            send(client_socket, "Server: http thread1\n\n", 22, 0);
 
             if (type == 0)
-            {
-                send(client_socket, "Server: http thread1\n\n", 22, 0);
+            {                
                 fstat(file, &file_stat);
                 file_size = (int)file_stat.st_size;
                 file_in_memory = (char *)malloc(file_size);
@@ -83,8 +83,7 @@ void *process(void *arg)
 
         else 
         {
-            send(client_socket, "HTTP/1.0 404 Not Found\n", 25, 0);
-            printf("address: %s\n", address);
+            send(client_socket, "HTTP/1.0 404 Not Found\n\n", 25, 0);
         }
         
         close(client_socket);
